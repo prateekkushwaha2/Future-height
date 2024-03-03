@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Height Growth Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header text-center">
+            <h2>Height Growth Calculator</h2>
+        </div>
+        <div class="card-body">
+            <form id="heightForm">
+                <div class="form-group">
+                    <label for="age">Enter your age:</label>
+                    <input type="number" class="form-control" id="age" placeholder="Enter your age" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">Enter your height in inches:</label>
+                    <input type="number" class="form-control" id="height" placeholder="Enter your height" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="calculateGrowth()">Calculate Growth</button>
+            </form>
+            <div id="result" class="mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function calculateGrowth() {
+        const age = parseFloat(document.getElementById('age').value);
+        const height = parseFloat(document.getElementById('height').value);
+        const resultDiv = document.getElementById('result');
+
+        if (age <= 7) {
+            resultDiv.innerHTML = "Sorry, you are under 7 years and you have lots of time to grow. Please tell us about your height if you are 8 years or older.";
+        } else if (age >= 18) {
+            resultDiv.innerHTML = "You have grown 100%. You will not grow more. After 18 years of birth, no one grows, neither girl nor boy. It is scientifically proven.";
+        } else {
+            const growthData = {
+                8: { boy: 72, girl: 77 },
+                9: { boy: 75, girl: 81 },
+                10: { boy: 78, girl: 84 },
+                11: { boy: 81, girl: 88 },
+                12: { boy: 84, girl: 91 },
+                13: { boy: 88, girl: 95 },
+                14: { boy: 92, girl: 98 },
+                15: { boy: 95, girl: 99 },
+                16: { boy: 98, girl: 99.5 },
+                17: { boy: 99, girl: 100 }
+            };
+
+            const growthBoy = growthData[Math.floor(age)].boy;
+            const growthGirl = growthData[Math.floor(age)].girl;
+
+            resultDiv.innerHTML = `
+                <p>You are ${age} years old and your height is ${height} inches.</p>
+                <p>If you are a boy, you have grown ${growthBoy}%. You will grow approximately ${calculateGrowthValue(height, growthBoy)} inches more.</p>
+                <p>If you are a girl, you have grown ${growthGirl}%. You will grow approximately ${calculateGrowthValue(height, growthGirl)} inches more.</p>
+            `;
+        }
+    }
+
+    function calculateGrowthValue(height, percentage) {
+        return height - (height * percentage / 100);
+    }
+</script>
+</body>
+</html>
